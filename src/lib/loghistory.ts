@@ -3,7 +3,7 @@
 //import bcrypt from 'bcryptjs'
 //import jwt from 'jsonwebtoken';
 //import axios from 'axios';
-import {LoginHistorySchema} from '/data/data/com.termux/files/home/e-commerce-mvc/src/models/authModel/schemas';
+import {LoginHistorySchema} from '/data/data/com.termux/files/home/ecommerce-mvc/src/models/authModel/schemas';
 
 //randomNum code generate
 type historyData ={

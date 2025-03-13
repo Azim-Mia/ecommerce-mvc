@@ -12,8 +12,8 @@ import inventoryRouter from './src/routers/inventoryRouter/inventoryRouter'
 import userRouter from './src/routers/userRouter/userRouter'
 import authRouter from './src/routers/authRouter/authRouter'
 import orderRouter from './src/routers/orderRouter/orderRouter'
-import {paymentRouter} from '/data/data/com.termux/files/home/e-commerce-mvc/src/routers/paymentRouter/paymentRouter';
-import '/data/data/com.termux/files/home/e-commerce-mvc/events/sessionStore'
+import {paymentRouter} from '/data/data/com.termux/files/home/ecommerce-mvc/src/routers/paymentRouter/paymentRouter';
+import '/data/data/com.termux/files/home/ecommerce-mvc/events/sessionStore'
  const app =express();
  app.use(cookieParser())
 app.use(express.json());

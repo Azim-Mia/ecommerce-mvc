@@ -1,9 +1,9 @@
 import {Request, Response,NextFunction} from 'express';
 const  jwt = require('jsonwebtoken');
  require('cookie-parser');
-import {access_key, refresh_key} from '/data/data/com.termux/files/home/e-commerce-mvc/secret';
-import {generateAccessToken} from '/data/data/com.termux/files/home/e-commerce-mvc/servises/generateToken'
-import {createAccessCookie} from '/data/data/com.termux/files/home/e-commerce-mvc/servises/makeCookie'
+import {access_key, refresh_key} from '/data/data/com.termux/files/home/ecommerce-mvc/secret';
+import {generateAccessToken} from '/data/data/com.termux/files/home/ecommerce-mvc/servises/generateToken'
+import {createAccessCookie} from '/data/data/com.termux/files/home/ecommerce-mvc/servises/makeCookie'
 export const verifyToken = async(req:Request,res:Response,next:NextFunction)=>{
   const refreshTokens=req.cookies.refreshToken;
   const accessToken=req.cookies.accessToken;

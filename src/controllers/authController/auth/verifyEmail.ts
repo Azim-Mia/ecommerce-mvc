@@ -2,7 +2,7 @@ import {Request, Response,NextFunction} from 'express';
 import {z} from 'zod';
 import axios from 'axios'
 import { AuthUserSchema,VerifiedCodeSchema } from '../../../models/authModel/schemas';
-import {access_key,refresh_key} from '/data/data/com.termux/files/home/e-commerce-mvc/secret';
+import {access_key,refresh_key} from '/data/data/com.termux/files/home/ecommerce-mvc/secret';
 import {generateAccessToken,generateRefreshToken} from '/data/data/com.termux/files/home/e-commerce-mvc/servises/generateToken'
 import {createAccessCookie,createRefreshCookie} from '/data/data/com.termux/files/home/e-commerce-mvc/servises/makeCookie'
 const dataVlidation = z.object({
