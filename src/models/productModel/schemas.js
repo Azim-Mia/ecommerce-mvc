@@ -23,6 +23,10 @@ const productSchema = new Schema({
     type:Number,
   required:[true, "Price is empty"],
   },
+  isBaned:{
+   type:Boolean,
+   default:false,
+  },
   image:{
     type:Array,
     default:["null"],
