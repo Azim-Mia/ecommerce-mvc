@@ -1,0 +1,10 @@
+import express from 'express';
+import { inventoryHealth,Create, Update, Finds, Delete, Find } from '../../../src/controllers/inventoryController';
+const inventoryRouter = express.Router();
+inventoryRouter.get('/',inventoryHealth);
+inventoryRouter.post('/create',Create as any);
+inventoryRouter.put('/update/:id',Update as any);
+inventoryRouter.get('/finds',Finds as any);
+inventoryRouter.delete('/delete/:id',Delete as any);
+inventoryRouter.get('/find/:id',Find as any);
+export default inventoryRouter;
