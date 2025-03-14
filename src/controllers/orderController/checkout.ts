@@ -3,7 +3,7 @@ import axios from 'axios';
 import {z} from 'zod';
 const { v4: uuidv4 } = require('uuid');
 import {OrderDetailModel,OrderItemModel} from '../../models/orderModel/schemas';
-import {orderSchema, orderItemsSchema} from '../../../servises/parseBodyValidate'
+import {orderSchema, orderItemsSchema} from '../../../validatesSchema/parseBodyValidate'
 const checkOut= async(req:Request, res:Response, next:NextFunction)=>{
   //decliar variable
   let cardData, cardItemsData;
@@ -54,6 +54,7 @@ const tax= 0;
   userId:parseBody.data.userId,
   userName:parseBody.data.userName,
   userEmail:parseBody.data.userEmail,
+  address:parseBody.data.address,
   subtotal:subtotal,
   tax:tax,
   grandTotal:grandTotal,
@@ -73,12 +74,12 @@ const productAllItem = orderItemsData.map((item)=>({
   const orderId =productAllItem.map(item => item.orderId);
     //create orderitem
   await OrderItemModel.insertMany(productAllItem);
-  //clear card
+  //clear cardhhhjhxhjgx
    await axios.get("http://localhost:3001/carts/clear",{
      headers:{
-       'x-card-session-id':parseBody.data.cardSessionId,
+       'x-card-session-idp?':parseBody.data.cardSessionId,
        },
-   }); 
+   });
    // semd email 
    await axios.post(`http:localhost:3001/email/send`,{
      recipient:parseBody.data.userEmail,
