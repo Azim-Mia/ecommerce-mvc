@@ -29,6 +29,7 @@ const orderDetails = Promise.all(cardData.map(async(item:any)=>{
     sku: product.findProduct.sku as string,
     price: product.findProduct.price,
     quantity:item.quantity,
+    image:product.findProduct.image,
     total: product.findProduct.price * item.quantity,
   }
 }));
