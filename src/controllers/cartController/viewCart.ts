@@ -1,6 +1,6 @@
 import {Request, Response, NextFunction} from 'express';
 import axios from 'axios';
-const view= async(req:Request, res:Response, next:NextFunction)=>{
+const viewCarts= async(req:Request, res:Response, next:NextFunction)=>{
   const cardSessionId = req.body.cardSessionId as string;
   //decliar variable
   let cardData ;
@@ -60,4 +60,4 @@ return res.status(200).json({
    return res.status(400).json({message:"Internal Server Error"});
   }
 }
-export default viewCheckOut;
+export default viewCarts;
