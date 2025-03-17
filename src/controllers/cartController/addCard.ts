@@ -46,7 +46,9 @@ const addCard= async(req:Request, res:Response, _next:NextFunction)=>{
     
     await redis.hset(`card:${cardSessionId}`, parseBody.data.productId,JSON.stringify({
       inventoryId:parseBody.data.inventoryId,
-      quantity:Number(parseBody.data.quantity)
+      quantity:Number(parseBody.data.quantity),
+      color:parseBody.data.color,
+      size:parseBody.data.size,
     }));
     return res.status(200).json({success:true, message:"add to card successfull", sessionId: cardSessionId});
   }catch(error){

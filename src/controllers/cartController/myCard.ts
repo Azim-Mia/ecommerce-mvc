@@ -17,16 +17,21 @@ const myCard= async(req:Request, res:Response, next:NextFunction)=>{
     if(Object.keys(items).length === 0){
       return res.status(200).json({success:false, message:[]});
     }
+
   //formatItems the data 
    const formatItems = Object.keys(items).map(key=>{
-     const {quantity, inventoryId} = JSON.parse(items[key]) as {
+     const {quantity, inventoryId,color,size} = JSON.parse(items[key]) as {
        inventoryId:string,
-       quantity:number
+       quantity:number,
+       color:string,
+       size:string
      };
      return {
        inventoryId,
+       productId:key,
        quantity,
-       productId:key
+       color,
+       size
      }
    });
    return res.status(200).json({success:true, message:"retun successfull", items:formatItems});

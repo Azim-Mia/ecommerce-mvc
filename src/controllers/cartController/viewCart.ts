@@ -1,7 +1,8 @@
 import {Request, Response, NextFunction} from 'express';
 import axios from 'axios';
 const viewCarts= async(req:Request, res:Response, next:NextFunction)=>{
-  const cardSessionId = req.body.cardSessionId as string;
+  const cardSessionId = req.headers['x-card-session-id'] as string;
+  console.log(cardSessionId)
   //decliar variable
   let cardData ;
   //body data validate 
@@ -30,27 +31,19 @@ const orderDetails = Promise.all(cardData.map(async(item:any)=>{
     price: product.findProduct.price,
     quantity:item.quantity,
     image:product.findProduct.image,
-    total: product.findProduct.price * item.quantity,
   }
 }));
 // resolve data Promise
 const orderItemsData = await orderDetails;
-const subtotal = orderItemsData.reduce((acc:any, item:any)=>acc + item.total, 0);
-const tax= 0;
-  const grandTotal = subtotal + tax;
-  const viewCheckOut ={
-    items:orderItemsData.map((item:any)=>({
+//const subtotal = orderItemsData.reduce((acc:any, item:any)=>acc + item.price, 0);
+//const tax= 0;
+  //const grandTotal = subtotal + tax;
+   const items=orderItemsData.map((item:any)=>({
       ...item,
-    })),
-  subtotal:subtotal,
-  tax:tax,
-  grandTotal:grandTotal,
-};
+    }));
 return res.status(200).json({
   success:true, message:'view cart successfull',
-  payload:{
-    viewCheckOut,
-  }
+  result:items,
 })
    }catch(error:any){
  console.log(error)
