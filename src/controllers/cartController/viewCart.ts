@@ -31,6 +31,8 @@ const orderDetails = Promise.all(cardData.map(async(item:any)=>{
     price: product.findProduct.price,
     quantity:item.quantity,
     image:product.findProduct.image,
+    color:item.color,
+    size:item.size,
   }
 }));
 // resolve data Promise
