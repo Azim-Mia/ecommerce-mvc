@@ -6,19 +6,14 @@ const SSLCommerzPayment = require('sslcommerz-lts')
 const store_id = process.env.STORE_ID;
 const store_passwd = process.env.STORE_PASSWORD;
 const is_live = false //true for live, false for sandbox
-//import { OrderDetailModel } from '/data/data/com.termux/files/home/e-commerce-mvc/src/models/orderModel/schemas'
-//find authModel find user
-import {AuthUserSchema} from '/data/data/com.termux/files/home/e-commerce-mvc/src/models/authModel/schemas'
-
+import {AuthUserSchema} from '/data/data/com.termux/files/home/ecommerce-mvc/src/models/authModel/schemas'
 const paymentController=async(req:Request,res:Response, _next:NextFunction)=>{
-  /*find the user is cheack this email need items userName, userEmail,
-  userId */
-  const {customerName,address,phone,email,present} = req.body;
+  const {email,address} = req.body;
 const exist = await AuthUserSchema.findOne({email:email});
 if(!exist){
   return res.status(404).json({success:false, message:"Email is not Register"});
 }
-
+console.log(exist)
   const tran_id=uuidv4();
    const data = {
         total_amount:900,
@@ -32,19 +27,19 @@ if(!exist){
         product_name: 'Computer.',
         product_category: 'Electronic',
         product_profile: 'general',
-        cus_name:customerName || 'yyy',
+        cus_name:'yyy',
         cus_email: 'customer@example.com',
-        cus_add1: address || 'mm',
-        cus_add2: present || 'mmm',
+        cus_add1:address || 'mm',
+        cus_add2:'mmm',
         cus_city: 'Dhaka',
         cus_state: 'Dhaka',
         cus_postcode:"postCode",
         cus_country: 'Bangladesh',
-        cus_phone:phone || '01711111111',
+        cus_phone:'01711111111',
         cus_fax: '01711111111',
         ship_name: 'Customer Name',
         ship_add1: "address",
-        ship_add2: address || 'hhh',
+        ship_add2:'hhh',
         ship_city: 'Dhaka',
         ship_state: 'Dhaka',
         ship_postcode: 1000,
@@ -61,6 +56,13 @@ if(!exist){
         console.log(apiResponse);
   let GatewayPageURL = apiResponse.GatewayPageURL;
         res.send({url:GatewayPageURL});
+//redirect fail payment route
+    }).catch((err:any)=>{
+      console.log(err.message)
+    })
+}
+export default paymentController
+
  // store tran_id oayment success
 /* const confirmOrder ={
    tran_id:data?.tran_id,
@@ -74,10 +76,3 @@ if(!exist){
  if(!result){
    return res.send("somthing problem payment")
  }*/
-//redirect fail payment route
-    }).catch((err:any)=>{
-      console.log(err.message)
-    })
-}
-export default paymentController
-

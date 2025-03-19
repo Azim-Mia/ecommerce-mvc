@@ -1,10 +1,10 @@
 import express from 'express';
 import {registerUser,findAllUser,findSingleUser,loginUser,verifyEmail,verifyUser, sendCode, QuaryId,forgetPassword,forgetPasswordVerify, logout} from '../../../src/controllers/authController';
-import {verifyToken} from '/data/data/com.termux/files/home/ecommerce-mvc/src/middlewares/verifyToken'
+//import {verifyToken} from '/data/data/com.termux/files/home/ecommerce-mvc/src/middlewares/verifyToken'
 //import {isLoggedIn} from '/data/data/com.termux/files/home/e-commerce-mvc/src/middlewares/isLogedIn'
 const authRouter = express.Router();
 authRouter.post('/users/register',registerUser as any);
-authRouter.get('/users/finds',verifyToken as any,findAllUser as any);
+authRouter.get('/users/finds',findAllUser as any);
 authRouter.get('/users/find/:id',findSingleUser as any);
 authRouter.post('/users/login',loginUser as any);
 authRouter.post('/users/email/verify',verifyEmail as any);

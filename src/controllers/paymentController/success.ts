@@ -1,5 +1,5 @@
 import {Request, Response, NextFunction} from 'express';
-import { OrderDetailModel } from '/data/data/com.termux/files/home/e-commerce-mvc/src/models/orderModel/schemas'
+import { OrderDetailModel } from '/data/data/com.termux/files/home/ecommerce-mvc/src/models/orderModel/schemas'
  const paymentSuccessController=async(req:Request,res:Response,_next:NextFunction)=>{
   const tran_id =req.params.tran_id;
 const orderConfirm=await OrderDetailModel.updateOne({tran_id:tran_id},{
