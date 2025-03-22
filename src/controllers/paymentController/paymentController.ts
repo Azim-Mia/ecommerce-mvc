@@ -8,12 +8,29 @@ const store_passwd = process.env.STORE_PASSWORD;
 const is_live = false //true for live, false for sandbox
 import {AuthUserSchema} from '/data/data/com.termux/files/home/ecommerce-mvc/src/models/authModel/schemas'
 const paymentController=async(req:Request,res:Response, _next:NextFunction)=>{
-  const {email,address} = req.body;
-const exist = await AuthUserSchema.findOne({email:email});
-if(!exist){
+  const {cardSessionId,address,post_code,phone,name} = req.body;
+  const response = await fetch("http://localhost:3001/carts/me", {
+    method: "GET",
+    credentials: "include",
+    headers: {
+      "x-card-session-id": cardSessionId || "",
+      "Content-Type": "application/json",
+    },
+  });
+  const jsonData= await response.json();
+  //check cart item 
+  if(!jsonData.success){
+    return res.json({ success: false, status: response.status, message: response.statusText });
+  }
+  const email = res.getHeader('email') || req.headers['email'];
+  if(!email){
+  return res.status(404).json({success:false, message:"Not found getHeader Email"});
+}
+const user = await AuthUserSchema.findOne({email:email});
+if(!user){
   return res.status(404).json({success:false, message:"Email is not Register"});
 }
-console.log(exist)
+const userId = user.authUserId || '';
   const tran_id=uuidv4();
    const data = {
         total_amount:900,
@@ -27,15 +44,15 @@ console.log(exist)
         product_name: 'Computer.',
         product_category: 'Electronic',
         product_profile: 'general',
-        cus_name:'yyy',
-        cus_email: 'customer@example.com',
+        cus_name:user?.name || 'yyy',
+        cus_email: user?.email || 'customer@example.com',
         cus_add1:address || 'mm',
         cus_add2:'mmm',
         cus_city: 'Dhaka',
         cus_state: 'Dhaka',
-        cus_postcode:"postCode",
+        cus_postcode:post_code || "postCode",
         cus_country: 'Bangladesh',
-        cus_phone:'01711111111',
+        cus_phone:phone || '01711111111',
         cus_fax: '01711111111',
         ship_name: 'Customer Name',
         ship_add1: "address",
@@ -53,26 +70,29 @@ console.log(exist)
         return res.status(400).json({success:false,message:'Payment is not success'});
       }
         // Redirect the user to payment gateway
-        console.log(apiResponse);
   let GatewayPageURL = apiResponse.GatewayPageURL;
         res.send({url:GatewayPageURL});
-//redirect fail payment route
+     //create order details 
+const gg=await fetch("http://localhost:3001/orders/checkout", {
+    method: "POST",
+    credentials: "include",
+    body: JSON.stringify({
+    userId,
+    name,
+    email,
+    address,
+    post_code,
+    cardSessionId
+  }),
+    headers: {
+      "x-card-session-id": cardSessionId || "",
+      "Content-Type": "application/json",
+    },
+  });
+     const pp = gg.json();
+     console.log(pp);
     }).catch((err:any)=>{
       console.log(err.message)
     })
 }
 export default paymentController
-
- // store tran_id oayment success
-/* const confirmOrder ={
-   tran_id:data?.tran_id,
-   userName:data?.cus_name,
-   userEmail:data?.cus_email,
-   subtotal:data?.total_amount,
-   address:'hhhh',
- };
- const result =await confirmOrder.save();
- console.log(result);
- if(!result){
-   return res.send("somthing problem payment")
- }*/
