@@ -40,7 +40,7 @@ const orderDetails = Promise.all(cardItemsData.map(async(item)=>{
     productName:product.findProduct.name as string,
     sku: product.findProduct.sku as string,
     price: product.findProduct.price,
-    quantity:item.quantity,
+    quantity:Number(item.quantity),
     total: product.findProduct.price * item.quantity,
   }
 }));
@@ -52,8 +52,8 @@ const tax= 0;
   const orderInitialData ={
   id:uuidv4(),
   userId:parseBody.data.userId,
-  userName:parseBody.data.userName,
-  userEmail:parseBody.data.userEmail,
+  name:parseBody.data.name,
+  email:parseBody.data.email,
   address:parseBody.data.address,
   subtotal:subtotal,
   tax:tax,
@@ -77,18 +77,18 @@ const productAllItem = orderItemsData.map((item)=>({
   //clear cardhhhjhxhjgx
    await axios.get("http://localhost:3001/carts/clear",{
      headers:{
-       'x-card-session-idp?':parseBody.data.cardSessionId,
+       'x-card-session-id':parseBody.data.cardSessionId,
        },
    });
    // semd email 
    await axios.post(`http:localhost:3001/email/send`,{
-     recipient:parseBody.data.userEmail,
+     recipient:parseBody.data.email,
      subject:"successfull order",
      body:`<div> 
      <h1> Amount:${grandTotal}</h1>
      <h2>orderId : ${orderId}</h2>
      </div>`,
-     source:parseBody.data.userEmail,
+     source:parseBody.data.email,
      sender:"Azim",
    });
 return res.status(200).json({
