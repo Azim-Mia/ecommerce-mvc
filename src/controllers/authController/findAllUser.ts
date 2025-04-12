@@ -5,6 +5,7 @@ const findAllUser = async(req:Request, res:Response, _next:NextFunction)=>{
   if(!result){
     return res.status(404).json({success:false, message:"not found User id"});
   }
-  res.status(200).json({success:true, message:"user return successfull",result});
+const userLength =  result.length;
+  res.status(200).json({success:true, message:"user return successfull",result,userLength});
 }
 export default findAllUser;

@@ -5,10 +5,10 @@ import bcrypt from 'bcryptjs'
 //import jwt from 'jsonwebtoken';
 //import axios from 'axios';
 import { AuthUserSchema } from '../../models/authModel/schemas';
-import {loghistory} from '/data/data/com.termux/files/home/e-commerce-mvc/src/lib/loghistory'
-import {access_key,refresh_key} from '/data/data/com.termux/files/home/e-commerce-mvc/secret';
-import {generateAccessToken,generateRefreshToken} from '/data/data/com.termux/files/home/e-commerce-mvc/servises/generateToken'
-import {createAccessCookie,createRefreshCookie} from '/data/data/com.termux/files/home/e-commerce-mvc/servises/makeCookie'
+import {loghistory} from '/data/data/com.termux/files/home/ecommerce-mvc/src/lib/loghistory'
+import {access_key,refresh_key} from '/data/data/com.termux/files/home/ecommerce-mvc/secret';
+import {generateAccessToken,generateRefreshToken} from '/data/data/com.termux/files/home/ecommerce-mvc/servises/generateToken'
+import {createAccessCookie,createRefreshCookie} from '/data/data/com.termux/files/home/ecommerce-mvc/servises/makeCookie'
 const loginUser = async(req:Request, res:Response, next:NextFunction)=>{
   try{
     const userData = z.object({
