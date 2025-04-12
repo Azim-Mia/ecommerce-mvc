@@ -88,7 +88,7 @@ const productAllItem = orderItemsData.map((item)=>({
      <h1> Amount:${grandTotal}</h1>
      <h2>orderId : ${orderId}</h2>
      </div>`,
-     source:parseBody.data.email,
+     source:parseBody?.data?.email as string,
      sender:"Azim",
    });
 return res.status(200).json({

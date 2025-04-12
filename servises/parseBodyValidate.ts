@@ -1,9 +1,9 @@
 import {z} from 'zod';
 export const orderSchema = z.object({
   userId:z.string(),
-  userName:z.string(),
+  name:z.string(),
   address:z.string(),
-  userEmail:z.string().email(),
+  email:z.string().email(),
   cardSessionId: z.string(),
 });
 
