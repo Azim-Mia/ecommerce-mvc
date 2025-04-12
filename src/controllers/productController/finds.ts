@@ -7,7 +7,8 @@ try{
     res.status(404).json({success:false, message:"Product is not found"});
   return;
   };
-  res.status(200).json({success:true, message:"Product return successfull",findProduct});
+  const productLength = findProduct.length;
+  res.status(200).json({success:true, message:"Product return successfull",findProduct, productLength});
 }catch(error){
   res.status(500).json({success:false, message:"Interneal server problem"});
 }
