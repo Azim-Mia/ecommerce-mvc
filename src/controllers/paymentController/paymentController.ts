@@ -1,39 +1,43 @@
 import {Request, Response, NextFunction} from 'express';
 const { v4: uuidv4 } = require('uuid');
-//import axios from 'axios';
-require('dotenv').config();
+import axios from 'axios';
+//require('dotenv').config();
+const jwt = require('jsonwebtoken');
 const SSLCommerzPayment = require('sslcommerz-lts')
 const store_id = process.env.STORE_ID;
 const store_passwd = process.env.STORE_PASSWORD;
 const is_live = false //true for live, false for sandbox
-import {AuthUserSchema} from '/data/data/com.termux/files/home/ecommerce-mvc/src/models/authModel/schemas'
+import {refresh_key} from '/data/data/com.termux/files/home/ecommerce-mvc/secret';
 const paymentController=async(req:Request,res:Response, _next:NextFunction)=>{
   const {cardSessionId,address,post_code,phone,name} = req.body;
-  const response = await fetch("http://localhost:3001/carts/me", {
-    method: "GET",
-    credentials: "include",
+  console.log(cardSessionId,address,name,post_code,phone)
+  if(!cardSessionId || !name || !post_code || !phone || !address){
+    return res.status(404).json({success:false, message:"Not found info"});
+  }
+  const response = await axios.get("http://localhost:3001/carts/me", {
+    withCredentials:true,
     headers: {
-      "x-card-session-id": cardSessionId || "",
-      "Content-Type": "application/json",
+      "x-card-session-id": cardSessionId || "null",
     },
   });
-  const jsonData= await response.json();
+  const carts= await response.data;
+  console.log(carts)
   //check cart item 
-  if(!jsonData.success){
-    return res.json({ success: false, status: response.status, message: response.statusText });
+  if(!carts.success){
+    return res.json({ success: false, status: response.status, message: 'cart is empty' });
   }
-  const email = res.getHeader('email') || req.headers['email'];
-  if(!email){
-  return res.status(404).json({success:false, message:"Not found getHeader Email"});
+  const refreshTokens=req.cookies.refreshToken;
+  console.log("cookie is not found R " + refreshTokens)
+  if(!refreshTokens){
+  return res.status(404).json({success:false, message:"Not found refreshTokens"});
 }
-const user = await AuthUserSchema.findOne({email:email});
-if(!user){
-  return res.status(404).json({success:false, message:"Email is not Register"});
+  const user = await jwt.verify(refreshTokens,refresh_key);
+  if(!user){
+  return res.status(404).json({success:false, message:"Not found user"});
 }
-const userId = user.authUserId || '';
   const tran_id=uuidv4();
    const data = {
-        total_amount:900,
+        total_amount:carts.subtotal,
         currency: 'BDT',
         tran_id:tran_id, // use unique tran_id for each api call
         success_url: `http://localhost:3001/payment/success/${tran_id}`,
@@ -41,13 +45,13 @@ const userId = user.authUserId || '';
         cancel_url: `http://localhost:3001/payment/cancel/${tran_id}`,
         ipn_url: 'http://localhost:3001/ipn',
         shipping_method: 'Courier',
-        product_name: 'Computer.',
+        product_name: 'any',
         product_category: 'Electronic',
         product_profile: 'general',
         cus_name:user?.name || 'yyy',
         cus_email: user?.email || 'customer@example.com',
         cus_add1:address || 'mm',
-        cus_add2:'mmm',
+        cus_add2:address ||'mmm',
         cus_city: 'Dhaka',
         cus_state: 'Dhaka',
         cus_postcode:post_code || "postCode",
@@ -73,26 +77,24 @@ const userId = user.authUserId || '';
   let GatewayPageURL = apiResponse.GatewayPageURL;
         res.send({url:GatewayPageURL});
      //create order details 
-const gg=await fetch("http://localhost:3001/orders/checkout", {
-    method: "POST",
-    credentials: "include",
-    body: JSON.stringify({
-    userId,
-    name,
-    email,
-    address,
-    post_code,
-    cardSessionId
-  }),
-    headers: {
-      "x-card-session-id": cardSessionId || "",
-      "Content-Type": "application/json",
-    },
-  });
-     const pp = gg.json();
-     console.log(pp);
+     const info ={
+    cardSessionId:cardSessionId,
+    userId:user?.id,
+    tran_id:data.tran_id,
+    name:name,
+    email:user.email,
+    phone:phone,
+    address:address || "jamalpur",
+    subtotal:carts.subtotal,
+    post_code:post_code,
+    items:carts.items,
+  } as any
+  console.log(info)
+const gg=await axios.post("http://localhost:3001/payment/create",info);
+     const pp = gg.data;
+     console.log("checkout details " + pp);
     }).catch((err:any)=>{
       console.log(err.message)
     })
 }
-export default paymentController
+export default paymentController;
