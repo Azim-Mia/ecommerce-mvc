@@ -13,6 +13,7 @@ import userRouter from './src/routers/userRouter/userRouter'
 import authRouter from './src/routers/authRouter/authRouter'
 import orderRouter from './src/routers/orderRouter/orderRouter'
 import {paymentRouter} from '/data/data/com.termux/files/home/ecommerce-mvc/src/routers/paymentRouter/paymentRouter';
+import searchRouter from '/data/data/com.termux/files/home/ecommerce-mvc/src/routers/searchRouter/searchRouter'
 import '/data/data/com.termux/files/home/ecommerce-mvc/events/sessionStore'
  const app =express();
  app.use(cookieParser())
@@ -33,6 +34,7 @@ app.use('/profile', userRouter);
 app.use('/auth', authRouter);
 app.use('/orders', orderRouter);
 app.use('/payment', paymentRouter);
+app.use('/', searchRouter);
 app.use((req:Request,res:Response,next:NextFunction)=>{
     res.status(404).send("Not Found Route");
 });

@@ -1,5 +1,5 @@
 import connectDB from './config/db';
-import {default as app} from './app';
+import {default as app } from './app';
 require('dotenv').config();
 const server_port = process.env.SERVER_PORT || 3001;
 app.listen(server_port,()=>{
