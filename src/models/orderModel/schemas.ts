@@ -7,7 +7,7 @@ const orderSchema= new Schema({
    type:String, 
    require:[true, "tran_id is empty"],
   },
-  userName:{
+  name:{
     type:String,
     trim:true,
     tolowercase:true,
@@ -15,13 +15,16 @@ const orderSchema= new Schema({
     minLength:[3, 'min length three character'],
     maxLength:[100, "max length 100"]
   },
-  userEmail:{
+  email:{
     type:String,
     unique: false,
     trim:true,
     tolowercase:true,
     required:[true, "not empt Email"],
     maxLength:[100, "max length 100"],
+  },
+  phone:{
+    type:String,
   },
   address:{
     type:String,
