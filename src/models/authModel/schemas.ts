@@ -35,8 +35,9 @@ const authUserSchema= new Schema({
     maxLength:[200, "max length 100"],
   },
   phone:{
-    type:Number,
+    type:String,
     trim:true,
+    default:null,
   },
   role:{
     type:String,
