@@ -1,6 +1,6 @@
 import express from 'express';
-import {searchController,userSearch} from '../../../src/controllers/searchController';
+import {searchController,orderSearch} from '../../../src/controllers/searchController';
 const searchRouter= express.Router();
-searchRouter.get('/product',searchController as any);
-searchRouter.get('/users/search',userSearch as any);
+searchRouter.get('/filter/product',searchController as any);
+searchRouter.get('/filter/orders',orderSearch as any);
 export default searchRouter;

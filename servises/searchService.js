@@ -10,10 +10,11 @@ const text=req.query.search || "";
       isAdmin:{$ne:true},
      $or:[
   {name:{$regex:searchRegExp}},
-  {slug:{$regex:searchRegExp}}
+  {slug:{$regex:searchRegExp}},
+  {email:{$regex:searchRegExp}},
         ],
     };
-  const options= {password:0, _id:0,email:0};
+  const options= {password:0, _id:0};
   const exists=await model.find(filter,options)
   .limit(limit)
   .skip((page-1) * limit);
