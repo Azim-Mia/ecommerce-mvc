@@ -6,7 +6,7 @@ const result = await PaymentSchema.findOneAndDelete({tran_id:tran_id});
   if(!result){
     return res.status(404).json({success:false,message:"Not found payment Data"});
   }
-  return res.status(200).json({success:true,message:"founded payment Data delete successfull",
-  });
+  res.redirect('http://localhost:3000/payment/success')
+return;
 }
 export default failPayment

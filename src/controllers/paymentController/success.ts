@@ -26,7 +26,7 @@ const info ={
   address:data.address,
   post_code:data.post_code,
 }
-const response = await axios.request({
+ await axios.request({
   method:'post',
   withCredentials:true,
   url:'http://localhost:3001/orders/checkout',
@@ -35,8 +35,10 @@ const response = await axios.request({
     'x-card-session-id':data.cardSessionId,
   }
 });
-console.log(response.data + 'response')
-return res.status(200).json({success:true, message:"successfull payment data", result:response?.data});
+res.redirect('http://localhost:3000/payment/success')
+return;
+//console.log(response.data + 'response')
+//return res.status(200).json({success:true, message:"successfull payment data", result:response?.data});
 }catch(err:any){
   return res.json({error:err});
 }
