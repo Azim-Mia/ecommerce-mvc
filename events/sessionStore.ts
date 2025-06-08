@@ -1,5 +1,5 @@
 import { Redis } from 'ioredis';
-import clearCard from "/data/data/com.termux/files/home/e-commerce-mvc/servises/clearCard"
+import clearCard from "/data/data/com.termux/files/home/ecommerce-mvc/servises/clearCard"
 const redis = new Redis({
   port: 10971,
   host:'redis-10971.c9.us-east-1-4.ec2.redns.redis-cloud.com',

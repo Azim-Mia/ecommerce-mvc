@@ -4,7 +4,7 @@ require('dotenv').config();
 import  emailInfo from  '../../../lib/forgetPasswordEmailInfo'
 import {access_key} from '/data/data/com.termux/files/home/ecommerce-mvc/secret';
 import {generateAccessToken} from '/data/data/com.termux/files/home/ecommerce-mvc/servises/generateToken'
-import {createAccessCookie} from '/data/data/com.termux/files/home/e-commerce-mvc/servises/makeCookie'
+import {createAccessCookie} from '/data/data/com.termux/files/home/ecommerce-mvc/servises/makeCookie'
 import { AuthUserSchema } from '../../../models/authModel/schemas';
  const forgetPassword =async(req:Request,res:Response, _next:NextFunction)=>{
 try{

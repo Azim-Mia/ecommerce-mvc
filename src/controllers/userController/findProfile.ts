@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import ProfileModel from '../../models/userModel/schemas'; // Uncommented and corrected
-import { refresh_key } from '/data/data/com.termux/files/home/e-commerce-mvc/secret';
+import { refresh_key } from '/data/data/com.termux/files/home/ecommerce-mvc/secret';
 
 const findProfile = async (req: Request, res: Response, _next: NextFunction) => {
   try {
